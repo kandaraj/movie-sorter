@@ -42,7 +42,13 @@ class MovieApi
     response = http.request(request)
     detail = JSON.parse(response.body)
     movie = Hash.new
-    movie['genre'] =  detail['genres'][0]['name']
+
+    begin
+      movie['genre'] =  detail['genres'][0]['name']
+    rescue
+      movie['genre'] =  'Unknown'
+    end
+
     movie['title'] = detail['title']
     movie
   end
