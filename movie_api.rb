@@ -23,20 +23,20 @@ class MovieApi
   def self.fetch_movie_info(movie_title)
     movie_title = clean_movie_name(movie_title)
 
-    uri = URI("http://private-e5c5-themoviedb.apiary.io/3/search/movie?query=#{URI::encode(movie_title)}&api_key=#{API_KEY}")
+    uri = URI("http://api.rottentomatoes.com/api/public/v1.0/movies.json?q=#{URI::encode(movie_title)}&apikey=#{API_KEY}&page_limit=1")
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
     response = http.request(request)
     result = JSON.parse(response.body)
 
-    if result['total_results'] > 0
-      fetch_movie_by_id result['results'][0]['id']
+    if result['total'] > 0
+      fetch_movie_by_id result['movies'][0]['id']
     end
 
   end
 
   def self.fetch_movie_by_id(id)
-    uri = URI("http://private-e5c5-themoviedb.apiary.io/3/movie/#{id}?api_key=#{API_KEY}")
+    uri = URI("http://api.rottentomatoes.com/api/public/v1.0/movies/#{id}.json?apikey=#{API_KEY}")
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
     response = http.request(request)
@@ -44,12 +44,19 @@ class MovieApi
     movie = Hash.new
 
     begin
-      movie['genre'] =  detail['genres'][0]['name']
+      movie['genre'] =  detail['genres'][0]
     rescue
       movie['genre'] =  'Unknown'
     end
 
-    movie['title'] = detail['title']
+    begin
+      movie['title'] = detail['title']
+      movie['year'] = detail['year']
+    rescue
+      movie['title'] = id
+      movie['year'] = 1900
+    end
+
     movie
   end
 

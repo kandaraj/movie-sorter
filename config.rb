@@ -10,5 +10,5 @@ BLACKLIST_TERMS = [/\.avi$/,/\.mkv$/,/\.mp4$/,/\d{3,4}p/,/dvdrip/i,/ac3/,/eng/i,
 
 ILLEGAL_CHARACTERS = [ '/', /\n/, /\r/, /\t/, /\0/, /\f/, '`', '?', '*', '\\', '<', '>', '|', '\"', ':']
 
-API_KEY = '36b8c69616e0a332e01f9429239876f7'
+API_KEY = 'rf8v37g6sz3978aewfjs3mrr'
 

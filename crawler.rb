@@ -27,7 +27,7 @@ class Crawler
     return if movie_info.nil?
     dest = @dest_path
     dest = @file_path if dest == nil?
-    dest = File.join(dest,'RENAMED',movie_info['genre'])
+    dest = File.join(dest,'RENAMED',movie_info['year'].to_s,movie_info['genre'])
     FileUtils.mkdir_p(dest) unless File.exists?(dest)
     clean_file_name = MovieApi.clean_movie_name(movie_info['title'])  + File.extname(source_file)
     new_file = File.join(dest,clean_file_name)
